@@ -1,0 +1,6 @@
+﻿title :: My Blog
+output path :: B:\repos\Blog Generator
+about me :: I am currently a senior computer science student at NC State University. Most of my experience is in reverse engineering. I am the co-leader and main reverse engineer for K3RN3L4RMY.
+about blog :: I am creating this blog as a centralized location for all my ctf writeups as well as my blog posts. My blog posts will mostly be about cool projects I recently worked on and what I learned while doing them or they will be written in a way to teach other people how to do certain things.
+skills and experience :: Most of my skills are centered around reverse engineering. I have a lot of experience with malware analysis, and as a result, a lot of experience with low level windows processes. I also have a good amount of experience with reversing linux and macos binaries.<br><br>Lately I have been doing a lot of work on custom or niche architectures as well as custom programming languages.
+side projects :: Recurso: Custom programming language written for the 2021 K3RN3LCTF.
