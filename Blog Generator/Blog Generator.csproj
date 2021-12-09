@@ -58,6 +58,9 @@
     <None Update="Templates\html\partials\ctf.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\html\partials\footer.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\html\partials\header.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -37,5 +37,7 @@ namespace Blog_Generator
         public const string WRITEUP = "{WRITEUP}";
         public const string CTFS = "{{CTFS}}";
         public const string WRITEUPS = "{{WRITEUPS}}";
+        public const string FOOTER = "{{FOOTER}}";
+
     }
 }

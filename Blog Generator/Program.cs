@@ -68,6 +68,7 @@ namespace Blog_Generator
         internal General GeneralConfig { get; set; } = new General();
 
         public string header { get; set; } = "";
+        public string footer { get; set; } = "";
 
         internal List<CTF> ctfs = new List<CTF>();
 
@@ -120,6 +121,14 @@ namespace Blog_Generator
             Utils.LogStatus("Header file generated");
         }
 
+        public void GenerateFooter()
+        {
+
+            footer = File.ReadAllText("Templates/html/partials/footer.html");
+
+            Utils.LogStatus("Footer file generated");
+        }
+
         public string GenerateBlogPosts()
         {
             var content = File.ReadAllText("Templates/html/partials/blog-post.html");
@@ -158,6 +167,7 @@ namespace Blog_Generator
             content = content.Replace(Constants.TITLE, GeneralConfig.Title);
             content = content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
             content = content.Replace(Constants.HEADER, header);
+            content = content.Replace(Constants.FOOTER, footer);
             content = content.Replace(Constants.NEWS, GenerateUpdates());
 
             File.WriteAllText(GeneralConfig.OutputPath + "\\blog\\index.html", content);
@@ -170,6 +180,7 @@ namespace Blog_Generator
             content = content.Replace(Constants.TITLE, GeneralConfig.Title);
             content = content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
             content = content.Replace(Constants.HEADER, header);
+            content = content.Replace(Constants.FOOTER, footer);
             content = content.Replace(Constants.ABOUT_ME, GeneralConfig.AboutMe);
             content = content.Replace(Constants.ABOUT_BLOG, GeneralConfig.AboutBlog);
             content = content.Replace(Constants.SKILLS_AND_EXPERIENCE, GeneralConfig.SkillsAndExperience);
@@ -185,6 +196,7 @@ namespace Blog_Generator
             content = content.Replace(Constants.TITLE, GeneralConfig.Title);
             content = content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
             content = content.Replace(Constants.HEADER, header);
+            content = content.Replace(Constants.FOOTER, footer);
 
             File.WriteAllText(GeneralConfig.OutputPath + "\\blog\\blog-posts.html", content);
         }
@@ -251,6 +263,7 @@ namespace Blog_Generator
             content = content.Replace(Constants.TITLE, GeneralConfig.Title);
             content = content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
             content = content.Replace(Constants.HEADER, header);
+            content = content.Replace(Constants.FOOTER, footer);
 
             content = content.Replace(Constants.CTFS, GenerateCTFs());
 
@@ -280,6 +293,7 @@ namespace Blog_Generator
                     writeup_content = writeup_content.Replace(Constants.TITLE, GeneralConfig.Title);
                     writeup_content = writeup_content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
                     writeup_content = writeup_content.Replace(Constants.HEADER, header.Replace("./", "../../").Replace("assets", "../../assets"));
+                    writeup_content = writeup_content.Replace(Constants.FOOTER, footer);
                     writeup_content = writeup_content.Replace(Constants.CTF_NAME, ctf.Name);
                     writeup_content = writeup_content.Replace(Constants.WRITEUP_TITLE, writeup.Name);
                     writeup_content = writeup_content.Replace(Constants.WRITEUP, Markdown.ToHtml(writeup.Markdown, pipeline));
@@ -297,6 +311,7 @@ namespace Blog_Generator
             p.GetGeneralData();
 
             p.GenerateHeader();
+            p.GenerateFooter();
 
             p.GenerateOutputFolder();
 
