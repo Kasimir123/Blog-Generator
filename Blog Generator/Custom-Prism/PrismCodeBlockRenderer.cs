@@ -29,7 +29,12 @@ namespace Markdig.Prism
             var languageCode = fencedCodeBlock.Info.Replace(parser.InfoPrefix, string.Empty);
             if (string.IsNullOrWhiteSpace(languageCode) || !PrismSupportedLanguages.IsSupportedLanguage(languageCode))
             {
-                languageCode = "text";
+                if (languageCode.Equals("py"))
+                {
+                    languageCode = "python";
+                }
+                else
+                    languageCode = "text";
             }
 
             var attributes = new HtmlAttributes();
