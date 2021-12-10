@@ -2,7 +2,7 @@
 using Blog_Generator.models;
 using HtmlAgilityPack;
 using Markdig;
-using Markdig.SyntaxHighlighting;
+using Markdig.Prism;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -221,6 +221,8 @@ namespace Blog_Generator
                     ctfs.Add(new CTF(file));
                 }
             }
+
+            ctfs.Reverse();
         }
 
         internal string GenerateWriteupLinks(CTF ctf)
@@ -230,7 +232,7 @@ namespace Blog_Generator
 
             foreach (var writeup in ctf.writeups)
             {
-                var ctf_content = content.Replace(Constants.WRITEUP_URL, GeneralConfig.OutputPath + "\\blog\\writeups\\" + ctf.Name + "\\" + writeup.Name + ".html");
+                var ctf_content = content.Replace(Constants.WRITEUP_URL, ".\\writeups\\" + ctf.Name + "\\" + writeup.Name + ".html");
                 ctf_content = ctf_content.Replace(Constants.WRITEUP_TITLE, writeup.Name);
                 output.Append(ctf_content);
             }
@@ -273,7 +275,8 @@ namespace Blog_Generator
         public void WriteAllWriteups()
         {
             var content = File.ReadAllText("Templates/html/writeup.html");
-            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseSyntaxHighlighting().Build();
+            /*var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseSyntaxHighlighting().Build();*/
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UsePrism().Build();
 
             if (!Directory.Exists(GeneralConfig.OutputPath + "\\blog\\writeups\\"))
             {
