@@ -71,12 +71,13 @@ namespace Blog_Generator
         public string footer { get; set; } = "";
 
         internal List<CTF> ctfs = new List<CTF>();
+        internal List<BlogPost> blogPosts = new List<BlogPost>();
 
         public void GetAuthorData()
         {
             var lines = File.ReadLines("Templates/config/AuthorData.txt", Encoding.UTF8).ToArray();
 
-            AuthorData = new Author(lines[0].Split("::")[1], lines[1].Split("::")[1], lines[2].Split("::")[1], lines[3].Split("::")[1], 
+            AuthorData = new Author(lines[0].Split("::")[1], lines[1].Split("::")[1], lines[2].Split("::")[1], lines[3].Split("::")[1],
                 lines[4].Split("::")[1], lines[5].Split("::")[1]);
 
             Utils.LogStatus("Querying author data");
@@ -86,7 +87,7 @@ namespace Blog_Generator
         {
             var lines = File.ReadLines("Templates/config/GeneralConfig.txt", Encoding.UTF8).ToArray();
 
-            GeneralConfig = new General(lines[0].Split("::")[1], lines[1].Split("::")[1], lines[2].Split("::")[1], lines[3].Split("::")[1], 
+            GeneralConfig = new General(lines[0].Split("::")[1], lines[1].Split("::")[1], lines[2].Split("::")[1], lines[3].Split("::")[1],
                 lines[4].Split("::")[1], lines[5].Split("::")[1]);
 
             Utils.LogStatus("Querying general data");
@@ -189,19 +190,90 @@ namespace Blog_Generator
             File.WriteAllText(GeneralConfig.OutputPath + "\\blog\\about.html", content);
         }
 
+        public void LoadBlogPosts()
+        {
+            using (var client = new WebClient())
+            {
+                var contents = client.DownloadString("https://github.com/Kasimir123/Blog-Posts");
+
+                var doc = new HtmlDocument();
+                doc.LoadHtml(contents);
+
+                var file_box = doc.DocumentNode.Descendants().Where(x => x.Attributes.Contains("aria-labelledby") && x.Attributes["aria-labelledby"].Value.Equals("files")).First();
+
+                var files = file_box.Descendants().Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value.Contains("Box-row"));
+
+                foreach (var file in files)
+                {
+                    blogPosts.Add(new BlogPost(file));
+                }
+            }
+
+        }
+
+        public string GenerateBlogPostLinks()
+        {
+            var content = File.ReadAllText("Templates/html/partials/blog-post.html");
+            var output = new StringBuilder();
+
+            foreach (var post in blogPosts)
+            {
+                var post_content = content.Replace(Constants.BLOG_URL, ".\\blog-posts\\" + post.Name + ".html");
+                post_content = post_content.Replace(Constants.BLOG_DATE, post.Date);
+                post_content = post_content.Replace(Constants.BLOG_DESC, post.Description);
+                post_content = post_content.Replace(Constants.BLOG_TITLE, post.Name);
+                post_content = post_content.Replace(Constants.BLOG_READ_TIME, post.ReadTime);
+                output.Append(post_content);
+            }
+
+            return output.ToString();
+        }
+
         public void WriteBlogFile()
         {
+            LoadBlogPosts();
+
             var content = File.ReadAllText("Templates/html/blog-posts.html");
 
             content = content.Replace(Constants.TITLE, GeneralConfig.Title);
             content = content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
             content = content.Replace(Constants.HEADER, header);
             content = content.Replace(Constants.FOOTER, footer);
+            content = content.Replace(Constants.POSTS, GenerateBlogPostLinks());
 
             File.WriteAllText(GeneralConfig.OutputPath + "\\blog\\blog-posts.html", content);
         }
 
-        
+        public void WriteAllPosts()
+        {
+            var content = File.ReadAllText("Templates/html/blog-post.html");
+            /*var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseSyntaxHighlighting().Build();*/
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UsePrism().Build();
+
+            if (!Directory.Exists(GeneralConfig.OutputPath + "\\blog\\blog-posts\\"))
+            {
+                Directory.CreateDirectory(GeneralConfig.OutputPath + "\\blog\\blog-posts\\");
+            }
+
+            foreach (var post in blogPosts)
+            {
+                if (!Directory.Exists(GeneralConfig.OutputPath + "\\blog\\blog-posts\\" + post.Name))
+                {
+                    Directory.CreateDirectory(GeneralConfig.OutputPath + "\\blog\\blog-posts\\" + post.Name);
+                }
+
+                var writeup_content = content;
+                writeup_content = writeup_content.Replace(Constants.TITLE, GeneralConfig.Title);
+                writeup_content = writeup_content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
+                writeup_content = writeup_content.Replace(Constants.HEADER, header.Replace("./", "../").Replace("assets", "../assets"));
+                writeup_content = writeup_content.Replace(Constants.FOOTER, footer);
+                writeup_content = writeup_content.Replace(Constants.CTF_NAME, post.Name);
+                writeup_content = writeup_content.Replace(Constants.WRITEUP, Markdown.ToHtml(post.Markdown, pipeline).Replace("<img", "<img class=\"img-fluid\""));
+
+                File.WriteAllText(GeneralConfig.OutputPath + "\\blog\\blog-posts\\" + post.Name + ".html", writeup_content);
+            }
+        }
+
 
         public void LoadWriteups()
         {
@@ -321,6 +393,7 @@ namespace Blog_Generator
             p.WriteIndexFile();
             p.WriteAboutFile();
             p.WriteBlogFile();
+            p.WriteAllPosts();
             p.WriteWriteupFile();
             p.WriteAllWriteups();
 

@@ -33,6 +33,10 @@ namespace Markdig.Prism
                 {
                     languageCode = "python";
                 }
+                else if (languageCode.Equals("c++"))
+                {
+                    languageCode = "cpp";
+                }
                 else
                     languageCode = "text";
             }

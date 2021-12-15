@@ -39,5 +39,7 @@ namespace Blog_Generator
         public const string WRITEUPS = "{{WRITEUPS}}";
         public const string FOOTER = "{{FOOTER}}";
 
+        public const string POSTS = "{{POSTS}}";
+
     }
 }

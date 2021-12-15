@@ -47,6 +47,9 @@
     <None Update="Templates\html\about.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\html\blog-post.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\html\blog-posts.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
