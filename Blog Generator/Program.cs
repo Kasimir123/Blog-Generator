@@ -221,7 +221,7 @@ namespace Blog_Generator
                 var post_content = content.Replace(Constants.BLOG_URL, ".\\blog-posts\\" + post.Name + ".html");
                 post_content = post_content.Replace(Constants.BLOG_DATE, post.Date);
                 post_content = post_content.Replace(Constants.BLOG_DESC, post.Description);
-                post_content = post_content.Replace(Constants.BLOG_TITLE, post.Name);
+                post_content = post_content.Replace(Constants.BLOG_TITLE, post.Title);
                 post_content = post_content.Replace(Constants.BLOG_READ_TIME, post.ReadTime);
                 output.Append(post_content);
             }
@@ -263,7 +263,7 @@ namespace Blog_Generator
                 }
 
                 var writeup_content = content;
-                writeup_content = writeup_content.Replace(Constants.TITLE, GeneralConfig.Title);
+                writeup_content = writeup_content.Replace(Constants.TITLE, post.Title);
                 writeup_content = writeup_content.Replace(Constants.AUTHOR_NAME, AuthorData.Name);
                 writeup_content = writeup_content.Replace(Constants.HEADER, header.Replace("./", "../").Replace("assets", "../assets"));
                 writeup_content = writeup_content.Replace(Constants.FOOTER, footer);

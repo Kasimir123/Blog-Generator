@@ -16,6 +16,7 @@ namespace Blog_Generator.models
         public string ReadTime { get; set; }
         public string Description { get; set; }
         public string Markdown { get; set; } = "";
+        public string Title { get; set; }
 
         private string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
@@ -58,6 +59,7 @@ namespace Blog_Generator.models
                         this.Date = configfile.Split("\n")[0].Split("||")[1].Trim();
                         this.Description = configfile.Split("\n")[1].Split("||")[1].Trim();
                         this.ReadTime = configfile.Split("\n")[2].Split("||")[1].Trim();
+                        this.Title = configfile.Split("\n")[4].Split("||")[1].Trim();
                     }
                 }
 

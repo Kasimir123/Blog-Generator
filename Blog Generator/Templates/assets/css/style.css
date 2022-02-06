@@ -258,7 +258,8 @@ figure {
 }
 
 img, svg {
-    vertical-align: middle
+    vertical-align: middle;
+    max-width: 100%;
 }
 
 table {
@@ -12262,3 +12263,10 @@ a {
     }
 }
 
+article a {
+    color: lightblue;
+}
+
+article summary {
+    color: #5FCB71;
+}

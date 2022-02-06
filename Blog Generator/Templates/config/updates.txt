@@ -1,3 +1,4 @@
-﻿12/9||Creation of site||Initial posting of the blog, blogs haven't been added yet and writeup image linking will come later. I hope you enjoy the site!!
-12/10||Site updates||Changed syntax highlighting to a custom implementation of a nuget package, fixed image issues, and reversed order of ctfs so the top is now the latest ctf writeups.
-12/15||First blog post||Added a blog post about game hacking and winapi guided by hacking the game Journey to savage planet.
+﻿12/9/21||Creation of site||Initial posting of the blog, blogs haven't been added yet and writeup image linking will come later. I hope you enjoy the site!!
+12/10/21||Site updates||Changed syntax highlighting to a custom implementation of a nuget package, fixed image issues, and reversed order of ctfs so the top is now the latest ctf writeups.
+12/15/21||<a href="./blog-posts/JourneyToSavagePlanet.html">First blog post</a>||Added a blog post about game hacking and winapi guided by hacking the game Journey to savage planet.
+1/15/22||<a href="./blog-posts/DLL%20Injection.html">DLL Injection Blog Post</a>||Added a blog post that starts off with how to perform basic DLL Injections and then takes a deep dive into how to manually parse, load, and inject a dll into another process.

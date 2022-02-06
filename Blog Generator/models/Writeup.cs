@@ -35,7 +35,7 @@ namespace Blog_Generator.models
                 {
                     var contents = client.DownloadString("https://raw.githubusercontent.com" + path.Replace("/tree", "") + "/" + this.Name + "/README.md");
 
-                    this.Markdown = contents.Replace("](./Photos", "](" + "https://raw.githubusercontent.com" + path.Replace("/tree", "") + "/" + this.Name + "/Photos");
+                    this.Markdown = contents.Replace("](./Photos", "](" + "https://raw.githubusercontent.com" + path.Replace("/tree", "") + "/" + this.Name + "/Photos").Replace("<", "&#x3C;");
                 }
             }
         }
